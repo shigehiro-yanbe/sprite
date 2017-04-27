@@ -42,3 +42,11 @@ function randomRange(lower, upper) {
 function randomAngle() {
 	return randomRange(-Math.PI, +Math.PI);
 }
+
+// 交差するならtrueを返す
+function checkCross(alpha, beta) {
+	return !((alpha.right  < beta.left)  ||
+			 (alpha.left   > beta.right) ||
+			 (alpha.bottom < beta.top)   ||
+			 (alpha.top    > beta.bottom));
+}

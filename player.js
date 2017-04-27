@@ -1,6 +1,10 @@
 var Player = (function(){
 	var Player = function() {
 		var player = new Sprite( null );
+		player.Rect = function() {
+			return {left:player.pos.x-3, right:player.pos.x+3, top:player.pos.y-3, bottom:player.pos.y+3};
+		}
+		
 		player.scale = 0.2;
 		this.buffer = [player];
 	}
@@ -13,7 +17,7 @@ var Player = (function(){
 		}
 		var dir = key.Dir();
 		if (dir != DIR.NONE) {
-			var speed = 10;
+			var speed = 6;
 			player.pos = vecAdd( player.pos, vecScale( DIRTABLE[dir], speed ) );
 			player.pos.x = clamp(player.pos.x, 10, SPRCOORD_WIDTH -10);
 			player.pos.y = clamp(player.pos.y, 10, SPRCOORD_HEIGHT-10);

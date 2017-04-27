@@ -9,15 +9,16 @@ var MyShot = (function(){
 		// 既存のショットを移動させる
 		this.buffer.forEach(function(shot,index,array){
 			shot.pos = vecAdd(shot.pos, vecScale(shot.vec, 30));
+
+			// 画面外に出たショットを削除
+			if (shot.pos.y < -100) {
+				shot.remove = true;
+			}
 		});
 
 		// ショットキーが押されていれば新しいショットを発射する
 		this.newshot(key, playerpos);
 
-		// 画面上に出たショットを削除
-		this.buffer = this.buffer.filter(function(shot,index,array){
-			return !(shot.pos.y < -100); // -100以下を除外
-		}, this);
 	}
 
 	p.newshot = function(key, playerpos) {
@@ -30,9 +31,12 @@ var MyShot = (function(){
 			this.scattercounter = 0;
 		}
 
+		// 新しいショット
 		var shot = {
-			pos : Object.assign({}, playerpos),
-			vec : {x:0, y:-1},
+			pos    : Object.assign({}, playerpos),
+			vec    : {x:0, y:-1},
+			remove : false,
+			Rect   : function() { return {left:this.pos.x-5, right:this.pos.x+5, top:this.pos.y-3, bottom:this.pos.y+30} }
 		}
 		var scatter = Math.cos((this.scattercounter / cycle) * Math.PI * 2);
 		shot.pos.x += scatter * 25;
