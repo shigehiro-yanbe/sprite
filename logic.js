@@ -32,8 +32,8 @@ var Logic = (function(){
 		this.enemy    .Draw();
 		this.explosion.Draw();
 		this.myshot   .Draw();
-		this.enemyshot.Draw();
 		this.player   .Draw();
+		this.enemyshot.Draw();
 	}
 
 	p.remove = function(container) {
@@ -76,8 +76,8 @@ var Logic = (function(){
 	return Logic;
 })();
 
-function IsDead_Player() {
-	return logic.player.getPlayer().IsDead();
+function IsEnableBullets() {
+	return logic.player.getPlayer().IsEnableBullets();
 }
 
 function SetExplosion(pos) {

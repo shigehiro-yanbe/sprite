@@ -39,7 +39,7 @@ var MyShotBuffer = (function(){
 			}
 		});
 
-		if (!IsDead_Player() && key.Shot()) {
+		if (IsEnableBullets() && key.Shot()) {
 			if (++this.scattercounter >= MYSHOTCYCLE) {
 				this.scattercounter = 0;
 			}

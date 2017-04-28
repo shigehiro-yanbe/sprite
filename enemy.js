@@ -47,12 +47,12 @@ var Zako = (function(){
 		}
 
 		// 画面下の方からは発射しない
-		if (this.pos.y >= SPRCOORD_HEIGHT-100) {
+		if (this.pos.y >= SPRCOORD_HEIGHT-30) {
 			return true;
 		}
 
-		// プレイヤー死亡中
-		if (IsDead_Player()) {
+		// 弾丸不許可
+		if (!IsEnableBullets()) {
 			return true;
 		}
 
@@ -91,7 +91,7 @@ var EnemyBuffer = (function(){
 		// 発生
 		if (--this.counter <= 0) {
 			this.buffer.push(new Zako());
-			this.counter = 1.3*FPS;
+			this.counter = 0.5*FPS;
 		}
 
 		// 生きてるものを更新
