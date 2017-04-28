@@ -75,7 +75,6 @@ var Renderer = (function(){
 
 	p.drawChip = function(chip) {
 		this.context.fillStyle = "rgb(" + chip.color + ")";
-		console.log(this.context.fillStyle);
 		var halfsize = chip.size * 0.5;
 		var size     = chip.size * SPRPOS_TO_SCREEN;
 		this.context.fillRect(
