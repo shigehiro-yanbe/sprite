@@ -51,6 +51,11 @@ var Zako = (function(){
 			return true;
 		}
 
+		// プレイヤー死亡中
+		if (IsDead_Player()) {
+			return true;
+		}
+
 		// 禁止状態じゃない
 		return false;
 	}

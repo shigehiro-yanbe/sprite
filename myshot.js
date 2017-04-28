@@ -16,8 +16,10 @@ var MyShot = (function(){
 			}
 		});
 
-		// ショットキーが押されていれば新しいショットを発射する
-		this.newshot(key, playerpos);
+		if (!IsDead_Player()) {
+			// ショットキーが押されていれば新しいショットを発射する
+			this.newshot(key, playerpos);
+		}
 
 	}
 
@@ -36,7 +38,7 @@ var MyShot = (function(){
 			pos    : Object.assign({}, playerpos),
 			vec    : {x:0, y:-1},
 			remove : false,
-			Rect   : function() { return {left:this.pos.x-5, right:this.pos.x+5, top:this.pos.y-3, bottom:this.pos.y+30} }
+			Rect   : function() { return {left:this.pos.x-10, right:this.pos.x+10, top:this.pos.y-3, bottom:this.pos.y+30} }
 		}
 		var scatter = Math.cos((this.scattercounter / cycle) * Math.PI * 2);
 		shot.pos.x += scatter * 25;

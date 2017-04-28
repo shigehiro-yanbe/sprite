@@ -2,7 +2,7 @@ var Logic = (function(){
 	var Logic = function() {
 		this.key       = new KeyboardHandler();
 
-		this.player    = new Player();
+		this.player    = new PlayerBuffer();
 		this.myshot    = new MyShot();
 		this.enemy     = new Enemy();
 		this.enemyshot = new EnemyShot();
@@ -19,9 +19,9 @@ var Logic = (function(){
 		this.enemyshot .Update();
 
 		var self = this;
-		this.hitCheck( this.myshot,    this.enemy,  function(shot  ,enemy)  { self.shot_enemy  (shot  ,enemy);  });
-		this.hitCheck( this.enemyshot, this.player, function(eshot ,player) { self.eshot_player(eshot ,player); });
-		this.hitCheck( this.player,    this.enemy,  function(player,enemy)  { self.player_enemy(player,enemy);  });
+		this.hitCheck( this.enemy,  this.myshot,    function(enemy, myshot) { self.enemy_myshot(enemy ,myshot); });
+		this.hitCheck( this.player, this.enemyshot, function(player,eshot)  { self.player_eshot(player,eshot);  });
+		this.hitCheck( this.player, this.enemy,     function(player,enemy)  { self.player_enemy(player,enemy);  });
 		
 		this.remove( this.myshot    );
 		this.remove( this.enemy     );
@@ -47,29 +47,37 @@ var Logic = (function(){
 	p.hitCheck = function(containerA, containerB, func) {
 		containerA.buffer.forEach(function(objA,arrayA,indexA) {
 			var rectA = objA.Rect();
-			containerB.buffer.forEach(function(objB,arrayB,indexB) {
-				if (checkCross(rectA, objB.Rect())) {
-					func(objA, objB);
-				}
-			},this);
+			if (rectA) {
+				containerB.buffer.forEach(function(objB,arrayB,indexB) {
+					var rectB = objB.Rect();
+					if (rectB) {
+						if (checkCross(rectA, rectB)) {
+							func(objA, objB);
+						}
+					}
+				},this);
+			}
 		},this);
 	}
 	
-	p.shot_enemy = function(shot,enemy) {
-		shot.remove = true;
+	p.enemy_myshot = function(enemy, myshot) {
 		enemy.Damage();
+		myshot.remove = true;
 	}
 
-	p.eshot_player = function(eshot,player) {
+	p.player_eshot = function(player, eshot) {
+		player.Damage();
 		eshot.remove = true;
-		console.log("hit!!");
 	}
 
 	p.player_enemy = function(player, enemy) {
-		console.log("hit!!");
-		enemy.remove = true;
+		player.Damage();
+		enemy.Damage();
 	}
 
 	return Logic;
 })();
 
+function IsDead_Player() {
+	return logic.player.getPlayer().IsDead();
+}
