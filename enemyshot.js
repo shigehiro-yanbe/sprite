@@ -34,11 +34,11 @@ var EShot = (function(){
 	return EShot;
 })();
 
-var EnemyShot = (function(){
-	var EnemyShot = function() {
+var EnemyShotBuffer = (function(){
+	var EnemyShotBuffer = function() {
 		this.buffer = [];
 	}
-	var p = EnemyShot.prototype;
+	var p = EnemyShotBuffer.prototype;
 
 	p.Fire = function(ownerpos, targetpos) {
 		this.buffer.push(new EShot(ownerpos,targetpos));
@@ -59,5 +59,5 @@ var EnemyShot = (function(){
 		}, this);
 	}
 
-	return EnemyShot;
+	return EnemyShotBuffer;
 })();

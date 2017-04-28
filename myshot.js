@@ -1,9 +1,32 @@
+var MYSHOTCYCLE = 0.13 * FPS;
+
 var MyShot = (function(){
-	var MyShot = function(key) {
+	var MyShot = function(playerpos,scattercounter) {
+		this.pos    = Object.assign({}, playerpos);
+		this.vec    = {x:0, y:-1};
+		this.remove = false;
+
+		var scatter = Math.cos((scattercounter / MYSHOTCYCLE) * Math.PI * 2);
+		this.pos.x += scatter * 25;
+		this.pos.y -= 15;
+		this.vec.x = scatter * 0.14;
+		this.vec = vecNormalize(this.vec);
+	}
+	var p = MyShot.prototype;
+
+	p.Rect = function() {
+		return {left:this.pos.x-10, right:this.pos.x+10, top:this.pos.y-3, bottom:this.pos.y+30};
+	}
+
+	return MyShot;
+})();
+
+var MyShotBuffer = (function(){
+	var MyShotBuffer = function(key) {
 		this.buffer         = [];
 		this.scattercounter = 0;
 	}
-	var p = MyShot.prototype;
+	var p = MyShotBuffer.prototype;
 
 	p.Update = function(key, playerpos) {
 		// 既存のショットを移動させる
@@ -16,36 +39,13 @@ var MyShot = (function(){
 			}
 		});
 
-		if (!IsDead_Player()) {
-			// ショットキーが押されていれば新しいショットを発射する
-			this.newshot(key, playerpos);
-		}
+		if (!IsDead_Player() && key.Shot()) {
+			if (++this.scattercounter >= MYSHOTCYCLE) {
+				this.scattercounter = 0;
+			}
 
-	}
-
-	p.newshot = function(key, playerpos) {
-		if (!key.Shot()) {
-			return;
+			this.buffer.push(new MyShot(playerpos, this.scattercounter));
 		}
-
-		var cycle = 0.13 * FPS;
-		if (++this.scattercounter >= cycle) {
-			this.scattercounter = 0;
-		}
-
-		// 新しいショット
-		var shot = {
-			pos    : Object.assign({}, playerpos),
-			vec    : {x:0, y:-1},
-			remove : false,
-			Rect   : function() { return {left:this.pos.x-10, right:this.pos.x+10, top:this.pos.y-3, bottom:this.pos.y+30} }
-		}
-		var scatter = Math.cos((this.scattercounter / cycle) * Math.PI * 2);
-		shot.pos.x += scatter * 25;
-		shot.pos.y -= 15;
-		shot.vec.x = scatter * 0.14;
-		shot.vec = vecNormalize(shot.vec);
-		this.buffer.push(shot);
 	}
 
 	p.Draw = function() {
@@ -58,5 +58,5 @@ var MyShot = (function(){
 		}, this);
 	}
 
-	return MyShot;
+	return MyShotBuffer;
 })();

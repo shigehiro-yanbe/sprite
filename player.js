@@ -43,7 +43,7 @@ var Player = (function(){
 	}
 
 	p.Damage = function() {
-		console.log("hit!!");
+		SetExplosion(this.sprite.pos);
 		this.deadCounter = 2.5 * FPS;
 	}
 

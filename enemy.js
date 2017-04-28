@@ -72,6 +72,7 @@ var Zako = (function(){
 
 		// HPが無くなったら死ぬ
 		if (--this.hp <= 0) {
+			SetExplosion(this.pos);
 			this.remove = true;
 		}
 	}
@@ -79,12 +80,12 @@ var Zako = (function(){
 	return Zako;
 })();
 
-var Enemy = (function(){
-	var Enemy = function() {
+var EnemyBuffer = (function(){
+	var EnemyBuffer = function() {
 		this.buffer  = [];
 		this.counter = 0;
 	}
-	var p = Enemy.prototype;
+	var p = EnemyBuffer.prototype;
 
 	p.Update = function(playerpos, enemyshot) {
 		// 発生
@@ -108,5 +109,5 @@ var Enemy = (function(){
 		}, this);
 	}
 	
-	return Enemy;
+	return EnemyBuffer;
 })();

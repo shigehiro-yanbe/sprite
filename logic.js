@@ -3,9 +3,10 @@ var Logic = (function(){
 		this.key       = new KeyboardHandler();
 
 		this.player    = new PlayerBuffer();
-		this.myshot    = new MyShot();
-		this.enemy     = new Enemy();
-		this.enemyshot = new EnemyShot();
+		this.myshot    = new MyShotBuffer();
+		this.enemy     = new EnemyBuffer();
+		this.enemyshot = new EnemyShotBuffer();
+		this.explosion = new ExplosionBuffer();
 	}
 	var p = Logic.prototype;
 
@@ -17,6 +18,7 @@ var Logic = (function(){
 		this.myshot    .Update(this.key, this.player.GetPos());
 		this.enemy     .Update(this.player.GetPos(), this.enemyshot);
 		this.enemyshot .Update();
+		this.explosion .Update();
 
 		var self = this;
 		this.hitCheck( this.enemy,  this.myshot,    function(enemy, myshot) { self.enemy_myshot(enemy ,myshot); });
@@ -26,13 +28,9 @@ var Logic = (function(){
 		this.remove( this.myshot    );
 		this.remove( this.enemy     );
 		this.remove( this.enemyshot );
-		/*
-		console.log("myshot:"+this.myshot.buffer.length+
-					" enemy:"+this.enemy.buffer.length+
-					" eshot:"+this.enemyshot.buffer.length);
-		  */
 
 		this.enemy    .Draw();
+		this.explosion.Draw();
 		this.myshot   .Draw();
 		this.enemyshot.Draw();
 		this.player   .Draw();
@@ -80,4 +78,8 @@ var Logic = (function(){
 
 function IsDead_Player() {
 	return logic.player.getPlayer().IsDead();
+}
+
+function SetExplosion(pos) {
+	logic.explosion.SetExplosion(pos);
 }
