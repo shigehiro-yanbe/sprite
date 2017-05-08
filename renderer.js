@@ -52,7 +52,8 @@ var Renderer = (function(){
 		this.ResetMatrix();
 		this.context.translate(sprite.pos.x * SPRPOS_TO_SCREEN, sprite.pos.y * SPRPOS_TO_SCREEN);
 		this.context.rotate(sprite.angle);
-		this.context.scale(sprite.scale, sprite.scale);
+		var scale = TEXTURE_MAG * sprite.scale;
+		this.context.scale(scale, scale);
 		this.context.translate(sprite.image.width*-0.5, sprite.image.height*-0.5);
 		this.context.drawImage(sprite.image,0,0);
 	}

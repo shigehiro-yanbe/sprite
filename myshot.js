@@ -51,7 +51,7 @@ var MyShotBuffer = (function(){
 	p.Draw = function() {
 		// スプライト表示
 		var spr = new Sprite(renderer.image);
-		spr.scale = 0.08;
+		spr.scale = 0.05;
 		this.buffer.forEach(function(shot,index,array){
 			spr.pos = shot.pos;
 			renderer.RegisterSprite(spr);

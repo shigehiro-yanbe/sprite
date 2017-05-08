@@ -102,7 +102,7 @@ var EnemyBuffer = (function(){
 
 	p.Draw = function() {
 		var spr = new Sprite(renderer.image);
-		spr.scale = 0.3;
+		spr.scale = 0.2;
 		this.buffer.forEach(function(zako,array,index){
 			spr.pos = zako.pos;
 			renderer.RegisterSprite(spr);
