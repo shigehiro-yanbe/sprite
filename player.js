@@ -76,7 +76,7 @@ var PlayerDeadProc = (function(){
 
 	p.Update = function() {
 		//console.log("dead");
-		if (--this.counter <= 0) {
+		if (--this.counter <= 0 && !this.player.isNoResurrect) {
 			this.player.phaseProc = new PlayerEntryProc(this.player);
 		}
 	}
@@ -94,6 +94,7 @@ var Player = (function(){
 		this.isControllable  = false;
 		this.isDead          = false;
 		this.isEnableBullets = false;
+		this.isNoResurrect   = false;
 		this.phaseProc = new PlayerEntryProc(this);
 	}
 	var p = Player.prototype;
@@ -134,12 +135,15 @@ var Player = (function(){
 		return {left:pos.x-3, right:pos.x+3, top:pos.y-3, bottom:pos.y+3};
 	}
 
+	// return false:ダメージが入らなかった
+	// return true: ダメージが入った
 	p.Damage = function() {
 		if (this.IsInvincible()) {
-			return;
+			return false;
 		}
 		SetExplosion(this.sprite.pos);
 		this.phaseProc = new PlayerDeadProc(this);
+		return true;
 	}
 
 	p.IsDead = function() {
@@ -154,6 +158,9 @@ var Player = (function(){
 	p.IsEnableBullets = function() {
 		return this.isEnableBullets;
 	}
+	p.NoResurrect = function() {
+		return this.isNoResurrect = true;
+	}
 
 	return Player;
 })();
@@ -164,28 +171,28 @@ var PlayerBuffer = (function(){
 	}
 	var p = PlayerBuffer.prototype;
 
-	p.getPlayer = function() {
+	p.GetPlayer = function() {
 		return this.buffer[0];
 	}
 	
 	p.Update = function(key) {
-		this.getPlayer().Update(key);
+		this.GetPlayer().Update(key);
 	}
 
 	p.GetPos = function() {
-		return this.getPlayer().GetPos();
+		return this.GetPlayer().GetPos();
 	}
 
 	p.IsDead = function() {
-		return this.getPlayer().IsDead();
+		return this.GetPlayer().IsDead();
 	}
 
 	p.IsEnableBullets = function() {
-		return this.getPlayer().IsEnableBullets();
+		return this.GetPlayer().IsEnableBullets();
 	}
 
 	p.Draw = function() {
-		this.getPlayer().Draw();
+		this.GetPlayer().Draw();
 	}
 
 	return PlayerBuffer;

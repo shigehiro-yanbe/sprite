@@ -1,5 +1,6 @@
 var renderer     = new Renderer(CANVAS_WIDTH, CANVAS_HEIGHT);
 var scenemanager = new SceneManager();
+var keyboard     = new KeyboardHandler();
 
 var App = (function(){
 	var App = function() {
@@ -18,6 +19,7 @@ var App = (function(){
 	p.loop = function() {
 		if (this.isIdle) {
 			this.isIdle = false;
+			keyboard.Update();
 			scenemanager.Update();
 			renderer.Render();
 			this.isIdle = true;
