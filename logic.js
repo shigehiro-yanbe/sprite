@@ -77,9 +77,9 @@ var Logic = (function(){
 })();
 
 function IsEnableBullets() {
-	return logic.player.getPlayer().IsEnableBullets();
+	return scenemanager.scene.logic.player.getPlayer().IsEnableBullets();
 }
 
 function SetExplosion(pos) {
-	logic.explosion.SetExplosion(pos);
+	scenemanager.scene.logic.explosion.SetExplosion(pos);
 }

@@ -51,7 +51,7 @@ var EnemyShotBuffer = (function(){
 	}
 
 	p.Draw = function() {
-		var spr = new Sprite(renderer.image);
+		var spr = new Sprite(renderer.images["apm"]);
 		spr.scale = 0.03;
 		this.buffer.forEach(function(eshot,array,index){
 			spr.pos = eshot.pos;

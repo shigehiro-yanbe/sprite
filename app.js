@@ -1,5 +1,5 @@
-var logic    = new Logic();
-var renderer = new Renderer(CANVAS_WIDTH, CANVAS_HEIGHT);
+var renderer     = new Renderer(CANVAS_WIDTH, CANVAS_HEIGHT);
+var scenemanager = new SceneManager();
 
 var App = (function(){
 	var App = function() {
@@ -18,7 +18,7 @@ var App = (function(){
 	p.loop = function() {
 		if (this.isIdle) {
 			this.isIdle = false;
-			logic.Update();
+			scenemanager.Update();
 			renderer.Render();
 			this.isIdle = true;
 		}

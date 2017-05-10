@@ -89,7 +89,7 @@ var PlayerDeadProc = (function(){
 var Player = (function(){
 	var Player = function() {
 		this.sprite = new Sprite( null );
-		this.sprite.scale = 0.15;
+		this.sprite.scale = 0.13;
 		this.isInvincible    = false;
 		this.isControllable  = false;
 		this.isDead          = false;
@@ -104,7 +104,7 @@ var Player = (function(){
 	
 	p.Update = function(key) {
 		if (this.sprite.image == null) {
-			this.sprite.image = renderer.image;
+			this.sprite.image = renderer.images["apm"];
 		}
 		this.phaseProc.Update();
 
