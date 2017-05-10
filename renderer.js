@@ -1,8 +1,15 @@
 var Renderer = (function(){
+	var img_list = {
+		apm: "anpanman.png",
+		psk: "pushspacekey.png",
+	};
+	
 	var Renderer = function(width, height){
 		this.width   = width;
 		this.height  = height;
-		this.image   = null;
+		this.images  = {};
+		this.endCallback = null;
+		
 		this.context = null;
 		this.buffer  = [];
 		this.bgstar  = new BGStar();
@@ -10,11 +17,27 @@ var Renderer = (function(){
 	var p = Renderer.prototype;
 
 	p.LoadResource = function(endCallback) {
-		this.image = new Image();
-		this.image.onload = endCallback;
-		this.image.src = "anpanman.png";
-
+		this.endCallback = endCallback;
 		this.context = this.initCanvas(this.width, this.height);
+
+		var self = this;
+		for (var name in img_list) {
+			var image = new Image();
+			this.images[name] = image;
+			image.onload = function() { self.onLoad(); };
+		}
+		for (var name in img_list) {
+			this.images[name].src = img_list[name];
+		}
+	}
+
+	p.onLoad = function() {
+		for (var name in img_list) {
+			if (!this.images[name].complete) {
+				return;
+			}
+		}
+		this.endCallback();
 	}
 
 	p.initCanvas = function(width, height) {
@@ -52,7 +75,8 @@ var Renderer = (function(){
 		this.ResetMatrix();
 		this.context.translate(sprite.pos.x * SPRPOS_TO_SCREEN, sprite.pos.y * SPRPOS_TO_SCREEN);
 		this.context.rotate(sprite.angle);
-		this.context.scale(sprite.scale, sprite.scale);
+		var scale = TEXTURE_MAG * sprite.scale;
+		this.context.scale(scale, scale);
 		this.context.translate(sprite.image.width*-0.5, sprite.image.height*-0.5);
 		this.context.drawImage(sprite.image,0,0);
 	}

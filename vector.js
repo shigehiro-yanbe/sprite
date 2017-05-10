@@ -23,6 +23,10 @@ function vecNormalize(vec) {
 	return vecScale(vec, 1/length);
 }
 
+function vecDotProduct(v1, v2) {
+	return v1.x*v2.x + v1.y*v2.y;
+}
+
 function min(a, b) {
 	return (a < b) ? a : b;
 }

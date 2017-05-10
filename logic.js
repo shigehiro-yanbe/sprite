@@ -1,12 +1,14 @@
 var Logic = (function(){
 	var Logic = function() {
-		this.key       = new KeyboardHandler();
+		this.player     = new PlayerBuffer();
+		this.myshot     = new MyShotBuffer();
+		this.enemy      = new EnemyBuffer();
+		this.enemyshot  = new EnemyShotBuffer();
+		this.explosion  = new ExplosionBuffer();
+		this.playerLeft = 3; // 開始時は3
+		this.gameovercounter = 0;
 
-		this.player    = new PlayerBuffer();
-		this.myshot    = new MyShotBuffer();
-		this.enemy     = new EnemyBuffer();
-		this.enemyshot = new EnemyShotBuffer();
-		this.explosion = new ExplosionBuffer();
+		--this.playerLeft; // 最初の出撃で1減らす
 	}
 	var p = Logic.prototype;
 
@@ -14,8 +16,8 @@ var Logic = (function(){
 		renderer.Clear_SpriteBuffer();
 		renderer.bgstar.Update();
 
-		this.player    .Update(this.key);
-		this.myshot    .Update(this.key, this.player.GetPos());
+		this.player    .Update(keyboard);
+		this.myshot    .Update(keyboard, this.player.GetPos());
 		this.enemy     .Update(this.player.GetPos(), this.enemyshot);
 		this.enemyshot .Update();
 		this.explosion .Update();
@@ -34,6 +36,12 @@ var Logic = (function(){
 		this.myshot   .Draw();
 		this.player   .Draw();
 		this.enemyshot.Draw();
+
+		if (this.gameovercounter > 0) {
+			if (--this.gameovercounter <= 0) {
+				scenemanager.StartTitleScene();
+			}
+		}
 	}
 
 	p.remove = function(container) {
@@ -64,22 +72,36 @@ var Logic = (function(){
 	}
 
 	p.player_eshot = function(player, eshot) {
-		player.Damage();
+		this.playerDamage(player);
 		eshot.remove = true;
 	}
 
 	p.player_enemy = function(player, enemy) {
-		player.Damage();
+		this.playerDamage(player);
 		enemy.Damage();
+	}
+
+	p.playerDamage = function(player) {
+		if (!player.Damage()) {
+			return;
+		}
+		if (this.playerLeft >= 1) {
+			--this.playerLeft;
+			return;
+		}
+
+		// ゲームオーバー
+		player.NoResurrect();
+		this.gameovercounter = 5*FPS;
 	}
 
 	return Logic;
 })();
 
 function IsEnableBullets() {
-	return logic.player.getPlayer().IsEnableBullets();
+	return scenemanager.scene.logic.player.GetPlayer().IsEnableBullets();
 }
 
 function SetExplosion(pos) {
-	logic.explosion.SetExplosion(pos);
+	scenemanager.scene.logic.explosion.SetExplosion(pos);
 }
