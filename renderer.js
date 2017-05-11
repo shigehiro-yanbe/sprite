@@ -2,6 +2,7 @@ var Renderer = (function(){
 	var img_list = {
 		apm: "anpanman.png",
 		psk: "pushspacekey.png",
+		gameover: "gameover.png",
 	};
 	
 	var Renderer = function(width, height){

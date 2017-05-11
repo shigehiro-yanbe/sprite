@@ -1,3 +1,32 @@
+var PhaseNormal = (function(){
+	var PhaseNormal = function() {
+	}
+	var p = PhaseNormal.prototype;
+
+	p.Update = function() {
+	}
+
+	return PhaseNormal;
+})();
+
+var PhaseGameOver = (function(){
+	var PhaseGameOver = function() {
+		this.counter = 5*FPS;
+		this.spr  = new Sprite( renderer.images["gameover"] );
+		this.spr.scale = 0.5;
+	}
+	var p = PhaseGameOver.prototype;
+
+	p.Update = function() {
+		renderer.RegisterSprite(this.spr);
+		if (--this.counter <= 0) {
+			scenemanager.StartTitleScene();
+		}
+	}
+
+	return PhaseGameOver;
+})();
+
 var Logic = (function(){
 	var Logic = function() {
 		this.player     = new PlayerBuffer();
@@ -6,7 +35,7 @@ var Logic = (function(){
 		this.enemyshot  = new EnemyShotBuffer();
 		this.explosion  = new ExplosionBuffer();
 		this.playerLeft = 3; // 開始時は3
-		this.gameovercounter = 0;
+		this.phaseProc  = new PhaseNormal();
 
 		--this.playerLeft; // 最初の出撃で1減らす
 	}
@@ -37,11 +66,7 @@ var Logic = (function(){
 		this.player   .Draw();
 		this.enemyshot.Draw();
 
-		if (this.gameovercounter > 0) {
-			if (--this.gameovercounter <= 0) {
-				scenemanager.StartTitleScene();
-			}
-		}
+		this.phaseProc.Update();
 	}
 
 	p.remove = function(container) {
@@ -92,7 +117,7 @@ var Logic = (function(){
 
 		// ゲームオーバー
 		player.NoResurrect();
-		this.gameovercounter = 5*FPS;
+		this.phaseProc = new PhaseGameOver();
 	}
 
 	return Logic;
