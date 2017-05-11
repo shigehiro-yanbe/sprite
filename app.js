@@ -35,13 +35,18 @@ var App = (function(){
 	}
 
 	p.calcFrame = function() {
-		var frame = Math.floor((window.performance.now() - this.startTime) * 3 / (3000 / FPS));
-		var delta = frame - this.prevFrame;
-		if (delta <= 0) {
+		var nowframe = Math.floor((window.performance.now() - this.startTime) * 3 / (3000 / FPS));
+		var progress = nowframe - this.prevFrame;
+		if (progress <= 0) {
 			return 0;
 		}
-		this.prevFrame = frame;
-		return delta;
+
+		// 長時間バックグラウンドにいたときの対策
+		if (progress >= 3) {
+			progress = 3;
+		}
+		this.prevFrame = nowframe;
+		return progress;
 	}
 
 	return App;
