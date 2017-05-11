@@ -88,11 +88,13 @@ var EnemyBuffer = (function(){
 	var p = EnemyBuffer.prototype;
 
 	p.Update = function(playerpos, enemyshot) {
+		/*
 		// 発生
 		if (--this.counter <= 0) {
 			this.buffer.push(new Zako());
 			this.counter = 0.5*FPS;
 		}
+		  */
 
 		// 生きてるものを更新
 		this.buffer.forEach(function(zako,array,index){
@@ -107,6 +109,14 @@ var EnemyBuffer = (function(){
 			spr.pos = zako.pos;
 			renderer.RegisterSprite(spr);
 		}, this);
+	}
+
+	p.Generate = function(type) {
+		this.buffer.push(new Zako());
+	}
+
+	p.IsEmpty = function() {
+		return (this.buffer.length <= 0);
 	}
 	
 	return EnemyBuffer;
