@@ -43,12 +43,12 @@ function angvec(ang) {
 
 var DIRTABLE = [
 	{x:0, y:0},
-	angvec( Math.PI*-0.5 ),
-	angvec( Math.PI*-0.25 ),
-	angvec( 0 ),
-	angvec( Math.PI*0.25 ),
-	angvec( Math.PI*0.5 ),
-	angvec( Math.PI*0.75 ),
-	angvec( Math.PI ),
-	angvec( Math.PI*-0.75 ),
-	];
+	angvec( -0.5 *Math.PI ),
+	angvec( -0.25*Math.PI ),
+	angvec(  0   *Math.PI ),
+	angvec(  0.25*Math.PI ),
+	angvec(  0.5 *Math.PI ),
+	angvec(  0.75*Math.PI ),
+	angvec(  1   *Math.PI ),
+	angvec( -0.75*Math.PI ),
+];
