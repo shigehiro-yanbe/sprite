@@ -112,7 +112,16 @@ var EnemyBuffer = (function(){
 	}
 
 	p.Generate = function(type) {
-		this.buffer.push(new Zako());
+		this.buffer.push( this.generateCore(type) );
+	}
+
+	p.generateCore = function(type) {
+		switch(type) {
+		case EnemyType.Zako1: return new Zako();
+		case EnemyType.Boss1: return new Zako();
+		default:
+			throw new Error("unknown enemy type:"+type);
+		}
 	}
 
 	p.IsEmpty = function() {

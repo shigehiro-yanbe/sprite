@@ -1,11 +1,3 @@
-var ZakoType = {
-	Zako1: 0,
-};
-
-var BossType = {
-	Boss1: 0,
-};
-
 var WaitSection = (function(){
 	var WaitSection = function(count) {
 		this.data_count = count;
@@ -89,21 +81,23 @@ var BossSection = (function(){
 })();
 
 var Data = [
-	new WaitSection(2*FPS),
-	new ZakoSection(ZakoType.Zako1, 30, 0.5*FPS),
-	new WaitSection(5*FPS),
-	new BossSection(BossType.Boss1),
-	new WaitSection(4*FPS),
+	new WaitSection( 1.5*FPS),
+//	new ZakoSection( EnemyType.Zako1, 30, 0.5*FPS),
+	new ZakoSection( EnemyType.Zako1, 5, 0.5*FPS),
+	new WaitSection( 4*FPS),
+	new BossSection( EnemyType.Boss1),
+	new WaitSection( 4*FPS),
+/*
+	new ZakoSection( EnemyType.Zako1, 30, 0.5*FPS),
+	new WaitSection( 5*FPS),
+	new BossSection( EnemyType.Boss1),
+	new WaitSection( 4*FPS),
 
-	new ZakoSection(ZakoType.Zako1, 30, 0.5*FPS),
-	new WaitSection(5*FPS),
-	new BossSection(BossType.Boss1),
-	new WaitSection(4*FPS),
-
-	new ZakoSection(ZakoType.Zako1, 30, 0.5*FPS),
-	new WaitSection(5*FPS),
-	new BossSection(BossType.Boss1),
-	];
+	new ZakoSection( EnemyType.Zako1, 30, 0.5*FPS),
+	new WaitSection( 5*FPS),
+	new BossSection( EnemyType.Boss1),
+  */
+];
 
 var GameController = (function(){
 	var GameController = function( eventcallback, eventreceiver ) {
@@ -122,16 +116,18 @@ var GameController = (function(){
 		}
 		
 		this.section.Update();
-		if (this.section.IsEnd()) {
-			++this.index;
-			if (this.index >= Data.length) {
-				// クリア
-				this.section = null;
-				this.eventcallback.call(this.eventreceiver, "allclear");
-			}
-			else {
-				this.startSection(this.index);
-			}
+		if (!this.section.IsEnd()) {
+			return;
+		}
+
+		if (++this.index < Data.length) {
+			// 次のセクションへ
+			this.startSection(this.index);
+		}
+		else {
+			// クリア
+			this.section = null;
+			this.eventcallback.call(this.eventreceiver, "allclear");
 		}
 	}
 
