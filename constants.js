@@ -55,6 +55,7 @@ var DIRTABLE = [
 
 var EnemyType = {
 	Zako1: 0,
+	Zako2: 1,
 	Boss1: 10,
 };
 

@@ -83,7 +83,7 @@ var BossSection = (function(){
 var Data = [
 	new WaitSection( 1.5*FPS),
 //	new ZakoSection( EnemyType.Zako1, 30, 0.5*FPS),
-	new ZakoSection( EnemyType.Zako1, 5, 0.5*FPS),
+	new ZakoSection( EnemyType.Zako2, 5, 0.5*FPS),
 	new WaitSection( 4*FPS),
 	new BossSection( EnemyType.Boss1),
 	new WaitSection( 4*FPS),
