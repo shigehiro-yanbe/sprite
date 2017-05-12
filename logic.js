@@ -31,11 +31,15 @@ var PhaseAllClear = (function(){
 	var PhaseAllClear = function() {
 		this.spr = new Sprite( renderer.images["complete"] );
 		this.spr.scale = 0.5;
+		this.counter = 6*FPS;
 	}
 	var p = PhaseAllClear.prototype;
 
 	p.Update = function() {
 		renderer.RegisterSprite( this.spr );
+		if (--this.counter <= 0) {
+			scenemanager.StartTitleScene();
+		}
 	}
 
 	return PhaseAllClear;

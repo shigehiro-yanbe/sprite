@@ -52,3 +52,10 @@ var DIRTABLE = [
 	angvec(  1   *Math.PI ),
 	angvec( -0.75*Math.PI ),
 ];
+
+var EnemyType = {
+	Zako1: 0,
+	Zako2: 1,
+	Boss1: 10,
+};
+
